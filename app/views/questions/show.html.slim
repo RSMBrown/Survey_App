@@ -2,6 +2,9 @@ h1
     =@question.main_question 
 
 h2 
+    =@question.question_type
+    br 
+    br 
     -@question.answers.each do |answer|
         li 
             =answer.choice

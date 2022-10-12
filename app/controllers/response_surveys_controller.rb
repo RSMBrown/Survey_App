@@ -38,6 +38,6 @@ class ResponseSurveysController < ApplicationController
 
     private 
     def response_survey_params
-        params.require(:response_survey).permit(:response, :answer_id, :survey_id, :question_id)
+        params.require(:response_survey).permit(:response, :answer_id, :survey_id, :question_id, answer_ids:[])
     end 
 end

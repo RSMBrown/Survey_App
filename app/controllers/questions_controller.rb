@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
         @question = Question.new(question_params)
         @survey = Survey.find(question_params[:survey_id])
 
-        if @question.save!
+        if @question.save
             redirect_to @question
         else 
             render :new 

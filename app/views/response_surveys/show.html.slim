@@ -2,7 +2,6 @@ h1
     =@survey.title 
 br 
     | Questions
-
 h2
     -@questions.each do |question|
         br
@@ -12,6 +11,3 @@ h2
 -if current_user.roles == 'taker'
     br
     =link_to "All Surveys", surveys_path 
--else    
-    =link_to "Results =>", result_path(survey_id: @survey.id)
-    br 

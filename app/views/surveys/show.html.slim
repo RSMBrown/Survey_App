@@ -28,7 +28,7 @@ h2
 -if current_user.roles == 'admin' || current_user.roles == 'designer'
     =link_to "Add Question", new_question_path(survey_id: @survey.id)
     br 
-    =link_to "Start survey", response_survey_path(survey_id: @survey.id)
+    =link_to "Survey result", result_path(survey_id: @survey.id)
     br
     =link_to "All surveys", surveys_path
 -else  
