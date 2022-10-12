@@ -1,0 +1,19 @@
+h1 
+    =@question.main_question 
+
+h2 
+    -@question.answers.each do |answer|
+        li 
+            =answer.choice
+            h6
+                =link_to "Edit Answer", edit_answer_path(answer, question_id: @question.id)
+                br 
+                =link_to "Delete Answer", answer_path(answer, question_id: @question.id), 
+                            method: :delete, 
+                            data: { confrim: "Are you sure?"}
+
+
+br 
+=link_to "New choice", new_answer_path(question_id: @question.id)
+br 
+=link_to "All surveys", surveys_path 

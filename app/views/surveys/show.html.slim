@@ -1,0 +1,35 @@
+h1 
+    =@survey.title 
+    br 
+        h4
+            -if current_user.roles == 'taker'
+            
+            -else 
+                =link_to "Edit survey", edit_survey_path(@survey)
+                br 
+                =link_to "Delete survey", survey_path(@survey),
+                            method: :delete,
+                            data: { confirm: "Are you sure?" }
+
+h2 
+    -@survey.questions.each do |question|
+        li 
+            =link_to question.main_question, question
+
+            ul 
+                h6
+                    -if current_user.roles == 'taker'
+            
+                    -else 
+                        =link_to "Edit Question", edit_question_path(question, survey_id: @survey.id)
+                        br 
+                        =link_to "Delete Question", question_path(question), method: :delete, data: { confrim: "Are you sure?" }
+
+-if current_user.roles == 'admin' || current_user.roles == 'designer'
+    =link_to "Add Question", new_question_path(survey_id: @survey.id)
+    br 
+    =link_to "Start survey", response_survey_path(survey_id: @survey.id)
+    br
+    =link_to "All surveys", surveys_path
+-else  
+    =link_to "Start survey", response_survey_path(survey_id: @survey.id)

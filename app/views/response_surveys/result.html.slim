@@ -1,0 +1,38 @@
+h1 
+    |   Results of survey #{@survey.title}
+
+-@questions.each do |question|
+    h2 
+        =question.main_question 
+        br
+    -arr = []
+    -question.answers.each do |answer|
+        -arr.push(answer.choice)
+    h3 
+        | Possible answers
+    br 
+    -arr.each do |element|
+        =element
+        | /  
+    br 
+    h3 
+        | Actual responses 
+    br 
+    -arr2 = []
+    -question.response_surveys.each do |response|
+        -result = Answer.find(response.answer_id)
+        br 
+        -arr2.push(result.choice)
+        br 
+        =response.response
+    -arr.each do |element|
+        -count = arr2.count(element).to_f
+        -percentage = (count/arr2.length)*100
+        ="#{percentage.to_i}% " 
+        | : 
+        ="#{(count).to_i} response/s for #{element}"
+        br     
+
+br 
+br
+=link_to "All Surveys", surveys_path

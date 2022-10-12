@@ -1,0 +1,10 @@
+h1 
+    |  Surveys
+
+h2 
+    -@surveys.each do |survey|
+        =link_to survey.title, survey 
+        br 
+br  
+-if current_user.roles == "admin" || current_user.roles == "designer"
+    =link_to "New Survey", new_survey_path

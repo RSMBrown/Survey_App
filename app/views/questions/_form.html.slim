@@ -1,0 +1,10 @@
+= form_with model: @question do |form|
+    = form.label "Question"
+    = form.text_field :main_question
+    br 
+    = form.hidden_field :survey_id, value: @survey.id
+    br 
+    = form.label "Question Type"
+    = form.select :question_type, Question.question_types.map { |key, value| [key.titleize, key]}, include_blank: true
+    br 
+    =form.submit 

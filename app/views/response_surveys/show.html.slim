@@ -1,0 +1,17 @@
+h1 
+    =@survey.title 
+br 
+    | Questions
+
+h2
+    -@questions.each do |question|
+        br
+        =link_to question.main_question, new_response_survey_path(question_id: question.id, survey_id: @survey.id)
+        br 
+
+-if current_user.roles == 'taker'
+    br
+    =link_to "All Surveys", surveys_path 
+-else    
+    =link_to "Results =>", result_path(survey_id: @survey.id)
+    br 

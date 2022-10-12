@@ -1,0 +1,44 @@
+=form_for @response_survey do |f|
+    h2
+        =f.label @question.main_question
+        br
+
+        -if @question.question_type == 'multi_choice'
+            =f.select :answer_id, @question.answers.all.collect { |answer| [answer.choice, answer.id] }, include_blank: true 
+            =f.hidden_field :survey_id, value: @survey.id
+            =f.hidden_field :question_id, value: @question.id
+            br
+            h5    
+                =f.label "Other"
+                br
+                =f.text_area :response 
+
+
+        -elsif @question.question_type = 'selected_choice'
+            =f.collection_check_boxes :answer_ids, @question.answers.all, :id, :choice do |x|
+                x.check_box
+                x.label
+
+            =f.hidden_field :survey_id, value: @survey.id
+            =f.hidden_field :question_id, value: @question.id
+            br 
+            h5
+                =f.label "Other"
+                br
+                =f.text_area :response 
+
+    
+        -elsif @question.question_type = 'open_ended'
+            =f.label @question.main_question
+            br 
+            =f.hidden_field :survey_id, value: @survey.id
+            =f.hidden_field :question_id, value: @question.id
+            br
+            h5 
+                =f.label "Answer"
+                br
+                =f.text_area :response 
+        br
+        br
+
+        = f.submit ("Submit")
