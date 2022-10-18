@@ -1,0 +1,17 @@
+commit fa2e168ac830d4fb74f9050fc1af16a4bf43370a
+Author: RSMBrown <rsmbrown92@gmail.com>
+Date:   Wed Oct 12 16:12:19 2022 +0200
+
+    Final
+
+diff --git a/app/models/user.rb b/app/models/user.rb
+index 8b64cb0..fef1ced 100644
+--- a/app/models/user.rb
++++ b/app/models/user.rb
+@@ -2,5 +2,5 @@ class User < ApplicationRecord
+   devise :database_authenticatable, :registerable,
+          :recoverable, :rememberable, :validatable
+   
+-  enum roles: { admin: 0, desginer: 1, taker: 2 }
++  enum roles: { admin: 0, designer: 1, taker: 2 }
+ end

@@ -6,8 +6,16 @@ Rails.application.routes.draw do
 
   resources :surveys 
   resources :questions
-  resources :answers 
-  resources :response_surveys
+  resources :answers, only: :create
+  resources :options 
+
+  resources :response_surveys do 
+    member do 
+      get :complete_survey
+      post :complete_survey
+    end 
+  end 
+
   get 'result', to: 'response_surveys#result'
-  get 'show', to: "response_surveys#show"
+  
 end
