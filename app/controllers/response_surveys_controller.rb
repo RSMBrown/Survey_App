@@ -1,43 +1,31 @@
 class ResponseSurveysController < ApplicationController
     before_action :authenticate_user!
 
-    def show 
-        @survey = Survey.find(params[:survey_id])
-        @questions = @survey.questions.all
-        @response_surveys = ResponseSurvey.all 
-        authorize @response_surveys
-    end 
-
-    def new 
-        @survey = Survey.find(params[:survey_id])
-        @response_survey = ResponseSurvey.new 
-        @question = Question.find(params[:question_id])
-        authorize @response_survey
-    end 
-
     def create 
-        @survey = Survey.find(response_survey_params[:survey_id])
-        @questions = @survey.questions.all
-        @question = Question.find(response_survey_params[:question_id])
-        @response_survey = ResponseSurvey.create(response_survey_params) 
-
-        if @response_survey.save
-            redirect_to show_path(survey_id: @survey.id)
-        else 
-            render :new 
-        end 
+        @survey = Survey.find(params[:survey_id])
+        @response_survey = @survey.response_surveys.create 
+        @response_survey.save 
         authorize @response_survey
+    end 
+
+    def complete_survey 
+        @survey = Survey.find(params[:survey_id])
+        @questions = @survey.questions.all 
+        @response_survey = @survey.response_surveys.find(params[:id])
+        question_ids = Answer.where(response_survey_id: @response_survey, question_id: question_ids).pluck(:question_id)
+        all_ids = @questions.pluck(:id)
+        unanswered_questions = all_ids - question_ids 
+        if unanswered_questions.blank?
+            flash[:success] = "Survey Completed!"
+            redirect_to surveys_path
+        else 
+            @question = Question.find(unanswered_questions.first)
+        end 
     end 
 
     def result
         @survey = Survey.find(params[:survey_id])
         @questions = @survey.questions.all
-        @response_surveys = ResponseSurvey.all 
         authorize @response_surveys
-    end 
-
-    private 
-    def response_survey_params
-        params.require(:response_survey).permit(:response, :answer_id, :survey_id, :question_id, answer_ids:[])
     end 
 end

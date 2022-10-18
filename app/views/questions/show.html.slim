@@ -5,11 +5,11 @@ h2
     =@question.question_type
     br 
     br 
-    -@question.answers.each do |answer|
+    -@question.options.each do |option|
         li 
-            =answer.choice
+            =option.choice
 
 br 
-=link_to "New choice", new_answer_path(question_id: @question.id)
+=link_to "New choice", new_option_path(question_id: @question.id)
 br 
 =link_to "All surveys", surveys_path 

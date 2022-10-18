@@ -5,16 +5,8 @@ class ResponseSurveyPolicy < ApplicationPolicy
     @user = user
     @response_survey = response_survey
   end
-
-  def show?
-    user.roles == 'admin' || user.roles == 'designer' || user.roles == 'taker'
-  end 
-
-  def new?
-    user.roles == 'admin' || user.roles == 'designer' || user.roles == 'taker'
-  end 
-
-  def create?
+  
+  def complete_survey?
     user.roles == 'admin' || user.roles == 'designer' || user.roles == 'taker'
   end 
 

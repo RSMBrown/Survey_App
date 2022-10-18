@@ -8,25 +8,26 @@ h1
         =question.main_question 
         br
         -arr = []
-        -question.answers.each do |answer|
-            -arr.push(answer.choice)
+        -question.options.each do |option|
+            -arr.push(option.choice)
         h3 
-            | Possible answers
+            | Possible choices
         -arr.each do |element|
             =element
             | /  
         h3 
             | Actual response/s 
         -arr2 = []
-        -question.response_surveys.each do |response|
-            - if response.answer_ids.present?
-                - result = Answer.find(response.answer_ids)
+        -question.answers.each do |answer|
+            - if answer.option_ids.present?
+                - result = Option.find(answer.option_ids)
                 - result.each {|result| arr2.push(result.choice)}
-            - elsif response.answer_id.present?
-                -result = Answer.find(response.answer_id)
-                -arr2.push(result.choice)
-            = response.response
-            br
+            - if answer.multi.present?
+                - result = Option.find(answer.multi)
+                - arr2.push(result.choice)
+            -if answer.reply.present?
+                = answer.reply
+                br
         - arr.each do |element|
             - count = arr2.count(element).to_f
             - percentage = ((count/arr2.length)*100)
@@ -38,6 +39,5 @@ h1
                 | No data
             br     
 
-br 
 br
 =link_to "All Surveys", surveys_path

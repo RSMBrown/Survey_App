@@ -1,52 +1,23 @@
 class AnswersController < ApplicationController
     before_action :authenticate_user!
 
-    def new 
-        @answer = Answer.new 
-        @question = Question.find(params[:question_id])
-        authorize @answer
-    end 
-
     def create 
         @answer = Answer.new(answer_params)
         @question = Question.find(answer_params[:question_id])
+        @survey = Survey.find(params[:survey_id])
+        @response_survey = ResponseSurvey.find(params[:response_survey_id])
 
         if @answer.save
-            redirect_to @question
+            flash[:success] = "Question Saved!"
+            redirect_to complete_survey_response_survey_path(id: @response_survey.id, survey_id: @survey.id)
         else 
-            render :new 
+            flash[:alert] = "Question creation failed"
         end 
-        authorize @answer
-    end 
-
-    def edit 
-        @answer = Answer.find(params[:id])
-        @question = Question.find(params[:question_id])
-        authorize @answer
-    end 
-
-    def update 
-        @answer = Answer.find(params[:id])
-        @question = Question.find(answer_params[:question_id])
-
-        if @answer.update(answer_params)
-            redirect_to @question 
-        else 
-            render :edit 
-        end 
-        authorize @answer
-    end 
-
-    def destroy 
-        @answer = Answer.find(params[:id])
-        @answer.destroy 
-
-        redirect_to surveys_path 
         authorize @answer
     end 
 
     private 
     def answer_params
-        params.require(:answer).permit(:choice, :question_id)
+        params.permit(:choice, :multi, :question_id, option_ids: [])
     end 
 end

@@ -1,36 +1,26 @@
-=form_for @response_survey do |f|
+=form_with model: @answer, url: answers_path, method: :post do |f|
     h2     
         =f.label @question.main_question
         br
         =f.hidden_field :survey_id, value: @survey.id
         =f.hidden_field :question_id, value: @question.id
+        =f.hidden_field :response_survey_id, value: @response_survey.id
 
         - if @question.question_type == 'multi_choice'
-            =f.select :answer_id, @question.answers.all.collect { |answer| [answer.choice, answer.id] }, include_blank: true 
+            =f.select :multi, @question.options.all.collect { |option| [option.choice, option.id] }, include_blank: true 
             br  
-            h5 
-                =f.label "Other"
-                br
-                =f.text_area :response 
-
 
         - elsif @question.question_type == 'selected_choice'
             h4
-                = f.collection_check_boxes :answer_ids, @question.answers.all, :id, :choice do |x|
+                = f.collection_check_boxes :option_ids, @question.options.all, :id, :choice do |x|
                     = x.check_box
                     = x.label
                     br 
-            br 
-            h5
-                =f.label "Other"
-                br
-                =f.text_area :response 
-
     
         - elsif @question.question_type == 'open_ended' 
             =f.label "Answer"
             br
-            =f.text_area :response 
+            =f.text_area :reply 
             br
 
         = f.submit ("Submit")
