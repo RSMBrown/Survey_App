@@ -10,10 +10,7 @@ Rails.application.routes.draw do
   resources :options 
 
   resources :response_surveys do 
-    member do 
-      get :complete_survey
-      post :complete_survey
-    end 
+    get :complete_survey, on: :member
   end 
 
   get 'result', to: 'response_surveys#result'

@@ -5,6 +5,7 @@ class ResponseSurveysController < ApplicationController
         @survey = Survey.find(params[:survey_id])
         @response_survey = @survey.response_surveys.create 
         @response_survey.save 
+        redirect_to complete_survey_response_survey_path(id: @response_survey.id, survey_id: @survey.id)
         authorize @response_survey
     end 
 
@@ -12,8 +13,8 @@ class ResponseSurveysController < ApplicationController
         @survey = Survey.find(params[:survey_id])
         @questions = @survey.questions.all 
         @response_survey = @survey.response_surveys.find(params[:id])
-        question_ids = Answer.where(response_survey_id: @response_survey, question_id: question_ids).pluck(:question_id)
-        all_ids = @questions.pluck(:id)
+        question_ids = Answer.where(response_survey_id: @response_survey, question_id: @questions).pluck(:question_id)
+        all_ids = @questions.ids
         unanswered_questions = all_ids - question_ids 
         if unanswered_questions.blank?
             flash[:success] = "Survey Completed!"
@@ -26,6 +27,5 @@ class ResponseSurveysController < ApplicationController
     def result
         @survey = Survey.find(params[:survey_id])
         @questions = @survey.questions.all
-        authorize @response_surveys
     end 
 end

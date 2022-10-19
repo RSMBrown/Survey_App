@@ -18,6 +18,6 @@ class AnswersController < ApplicationController
 
     private 
     def answer_params
-        params.permit(:choice, :multi, :question_id, option_ids: [])
+        params.permit(:choice, :multi, :reply, :response_survey_id, :question_id, option_ids: [])
     end 
 end

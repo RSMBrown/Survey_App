@@ -32,4 +32,4 @@ h2
     br
     =link_to "All surveys", surveys_path
 -else  
-    =link_to "Start survey", complete_survey_response_survey_path(survey_id: @survey.id), method: :post
+    =link_to "Start survey", response_surveys_path(survey_id: @survey.id), method: :post
